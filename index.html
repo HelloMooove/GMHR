@@ -68,14 +68,6 @@ table.lt tbody td{padding:6px 7px;border:1px solid #e0e0e0;vertical-align:middle
 .architect-rec-lbl{opacity:.65;font-size:10px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
 .architect-rec-tool{display:inline-block;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:11px;font-weight:600;color:#f3e0a0}
 
-/* ROI Calculator */
-.roi{background:white;border-radius:7px;padding:13px 15px;border:0.5px solid #e0e0e0;margin-bottom:10px}
-.roi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.roi-cell{background:#f7f9f8;border:0.5px solid #e5e8e7;border-radius:5px;padding:9px 11px}
-.roi-cell-lbl{font-size:9.5px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
-.roi-cell-val{font-size:17px;font-weight:600;color:#2a5c52}
-.roi-cell-sub{font-size:9.5px;color:#aaa;margin-top:2px}
-
 /* Empty / Loading state */
 .empty{text-align:center;padding:60px 20px;color:#888}
 .empty-icon{font-size:32px;margin-bottom:10px;opacity:.4}
@@ -142,41 +134,20 @@ table.lt tbody td{padding:6px 7px;border:1px solid #e0e0e0;vertical-align:middle
           <div class="kpi"><div class="kpi-lbl">Losing time / money</div><div class="kpi-val" id="kpiLoss">—</div><div class="kpi-sub" id="kpiLossSub">—</div></div>
         </div>
 
-        <!-- ROI Calculator -->
-        <div class="roi">
-          <div class="card-title">Dynamic ROI calculator — estimated annual value of time lost</div>
-          <div style="font-size:10.5px;color:#888;line-height:1.45">Model: for each respondent flagged "losing time", we estimate <strong>2 hrs/day × 220 working days</strong> at a blended hourly cost scaled to company size (€45 → €95/hr), weighted by the strategic multiplier of their declared time-loss area.</div>
-          <div class="roi-grid">
-            <div class="roi-cell">
-              <div class="roi-cell-lbl">Cohort est. value at stake</div>
-              <div class="roi-cell-val" id="roiTotal">—</div>
-              <div class="roi-cell-sub" id="roiBasis">—</div>
-            </div>
-            <div class="roi-cell">
-              <div class="roi-cell-lbl">Avg per respondent</div>
-              <div class="roi-cell-val" id="roiAvg">—</div>
-              <div class="roi-cell-sub">Annualised</div>
-            </div>
-            <div class="roi-cell">
-              <div class="roi-cell-lbl">Top loss area</div>
-              <div class="roi-cell-val" id="roiArea" style="font-size:14px;padding-top:3px">—</div>
-              <div class="roi-cell-sub" id="roiAreaMult">—</div>
-            </div>
-          </div>
-        </div>
-
         <div class="row" style="grid-template-columns:1fr 1fr">
           <div class="card">
-            <div class="card-title">Maturity score per respondent</div>
+            <div class="card-title">Maturity score per respondent (sorted high → low)</div>
             <div class="legend">
-              <span class="li"><span class="ld" style="background:#c9a227"></span>Score  |  Theoretical range: 6–58</span>
-              <span class="li"><span style="display:inline-block;width:28px;height:9px;background:#f3e0a0;border:1px dashed #c9a227;border-radius:1px"></span>Momentum band (20–39)</span>
+              <span class="li"><span class="ld" style="background:#c0392b"></span>Ignition (&lt;20)</span>
+              <span class="li"><span class="ld" style="background:#c9a227"></span>Momentum (20–39)</span>
+              <span class="li"><span class="ld" style="background:#1a6b5a"></span>Mastery (≥40)</span>
+              <span class="li"><span style="display:inline-block;width:28px;height:9px;background:#f3e0a0;border:1px dashed #c9a227;border-radius:1px"></span>Momentum band</span>
             </div>
-            <div style="position:relative;width:100%;height:260px"><canvas id="c_score"></canvas></div>
+            <div style="position:relative;width:100%;height:320px"><canvas id="c_score"></canvas></div>
           </div>
           <div class="card">
             <div class="card-title">Industry breakdown</div>
-            <div style="position:relative;width:100%;height:260px"><canvas id="c_ind"></canvas></div>
+            <div style="position:relative;width:100%;height:320px"><canvas id="c_ind"></canvas></div>
           </div>
         </div>
 
@@ -392,13 +363,7 @@ const SCORING = {
   }
 };
 
-/* ROI modelling: hourly cost blended by company size */
-const HOURLY_RATE_BY_SIZE = {
-  '1-50': 45, '1–50': 45,
-  '50-200': 60, '50–200': 60,
-  '200-500': 75, '200–500': 75,
-  '500+': 95
-};
+
 
 /* Strategic tool recommendations per dominant AI difficulty */
 const TOOL_RECS = {
@@ -425,13 +390,31 @@ function destroyChart(id){ if(charts[id]){ charts[id].destroy(); delete charts[i
    HELPERS
    ========================================================= */
 function norm(s){ return (s||'').toString().trim().toLowerCase(); }
+/* Filter out values that look like booleans, empties, or other junk
+   that sometimes leaks in from misaligned checkbox columns. */
+function isJunk(v){
+  if(v === null || v === undefined) return true;
+  const n = norm(v);
+  if(!n) return true;
+  if(['true','false','0','1','yes','no','y','n','null','undefined','n/a','na','-'].includes(n)) return true;
+  return false;
+}
+function cleanValue(v){ return isJunk(v) ? null : v; }
+function cleanArray(arr){ return (arr||[]).filter(v => !isJunk(v)); }
 function pick(record, candidates){
-  // Airtable field names can vary — try a list of candidate keys
+  // Airtable field names can vary — try a list of candidate keys.
+  // Skip values that are booleans or look like booleans — those are
+  // checkbox columns, never the categorical text we want.
+  const isBoolish = v => (typeof v === 'boolean') || (typeof v === 'string' && /^(true|false)$/i.test(v.trim()));
   for(const c of candidates){
-    if(record[c] !== undefined && record[c] !== null && record[c] !== '') return record[c];
+    if(record[c] !== undefined && record[c] !== null && record[c] !== ''){
+      if(!isBoolish(record[c])) return record[c];
+    }
     // case-insensitive
     const k = Object.keys(record).find(k => k.toLowerCase() === c.toLowerCase());
-    if(k && record[k] !== undefined && record[k] !== null && record[k] !== '') return record[k];
+    if(k && record[k] !== undefined && record[k] !== null && record[k] !== ''){
+      if(!isBoolish(record[k])) return record[k];
+    }
   }
   return null;
 }
@@ -597,43 +580,15 @@ function buildModel(records){
     tierCounts,
     losingYes,
     losingPct: total ? Math.round((losingYes/total)*100) : 0,
-    industries: countBy(rows.map(r=>r.industry)),
-    sizes: countBy(rows.map(r=>r.size)),
-    roles: countBy(rows.map(r=>r.role)),
-    pressures: countBy(rows.flatMap(r=>r.pressures)),
-    timeLoss: countBy(rows.flatMap(r=>r.timeLossList)),
-    aiUsage: countBy(rows.map(r=>r.aiUsage)),
-    aiDifficulty: countBy(rows.map(r=>r.aiDifficulty)),
-    wow: countBy(rows.map(r=>r.wow)),
-    impact: countBy(rows.map(r=>r.impact))
-  };
-}
-
-/* =========================================================
-   ROI
-   ========================================================= */
-function computeROI(model){
-  const WORK_DAYS = 220, HOURS_LOST = 2;
-  let total = 0, contributors = 0;
-  model.rows.forEach(r => {
-    const loses = ['yes','y','true','1'].includes(r.losingTime) || r.timeLossList.length > 0;
-    if(!loses) return;
-    contributors++;
-    const rate = scoreFrom(HOURLY_RATE_BY_SIZE, r.size) || 55;
-    // multiplier from top time-loss strategic weight (+10 best, +1 worst) → map to 1.0–1.5
-    const pts = r.topLoss ? scoreFrom(SCORING.timeLoss, r.topLoss) : 3;
-    const mult = 1 + (pts / 20); // +10 → 1.5x, +1 → 1.05x
-    total += rate * HOURS_LOST * WORK_DAYS * mult;
-  });
-  const [topArea, topCount] = Object.entries(model.timeLoss).sort((a,b)=>b[1]-a[1])[0] || [null,0];
-  const topPts = topArea ? scoreFrom(SCORING.timeLoss, topArea) : 0;
-  return {
-    total,
-    avg: contributors ? total / contributors : 0,
-    contributors,
-    topArea: topArea || '—',
-    topAreaPts: topPts,
-    topAreaCount: topCount
+    industries: countBy(rows.map(r=>cleanValue(r.industry))),
+    sizes: countBy(rows.map(r=>cleanValue(r.size))),
+    roles: countBy(rows.map(r=>cleanValue(r.role))),
+    pressures: countBy(cleanArray(rows.flatMap(r=>r.pressures))),
+    timeLoss: countBy(cleanArray(rows.flatMap(r=>r.timeLossList))),
+    aiUsage: countBy(rows.map(r=>cleanValue(r.aiUsage))),
+    aiDifficulty: countBy(rows.map(r=>cleanValue(r.aiDifficulty))),
+    wow: countBy(rows.map(r=>cleanValue(r.wow))),
+    impact: countBy(rows.map(r=>cleanValue(r.impact)))
   };
 }
 
@@ -711,14 +666,6 @@ function render(model){
   document.getElementById('architectTool').textContent = ai.tool;
   document.getElementById('architectToolWhy').textContent = '— ' + ai.why;
 
-  // ROI
-  const roi = computeROI(model);
-  document.getElementById('roiTotal').textContent = fmtEUR(roi.total);
-  document.getElementById('roiBasis').textContent = `${roi.contributors} contributing respondents`;
-  document.getElementById('roiAvg').textContent = fmtEUR(roi.avg);
-  document.getElementById('roiArea').textContent = roi.topArea;
-  document.getElementById('roiAreaMult').textContent = `${roi.topAreaCount} mentions · +${roi.topAreaPts} strategic weight`;
-
   // Charts
   renderOverviewCharts(model);
   // Reset lazy-load flags so tabs re-build with fresh data
@@ -730,54 +677,61 @@ function render(model){
 }
 
 function renderOverviewCharts(model){
-  // Maturity score per respondent (with Momentum band highlight via a stacked ghost bar)
+  // Maturity score per respondent — vertical bars, sorted high→low, tier-colored.
+  // Horizontal shaded band shows the 20–39 Momentum zone behind the bars.
   destroyChart('c_score');
+  const sortedRows = [...model.rows].sort((a,b) => b.score - a.score);
+  const maxScore = 58;
   charts.c_score = new Chart('c_score',{
     type:'bar',
     data:{
-      labels: model.rows.map(r=>r.label),
-      datasets:[
-        { // Momentum-band ghost layer drawn first so it sits behind bars
-          label:'Momentum band',
-          data: model.rows.map(()=>({ x:[20,39], y:0 })), // unused — we use a plugin instead
-          backgroundColor:'transparent',
-          hidden:true
-        },
-        {
-          data: model.rows.map(r=>r.score),
-          backgroundColor: model.rows.map(r => {
-            const t = tierOf(r.score);
-            return t==='Momentum'? AM : t==='Mastery'? GR : RD;
-          }),
-          borderRadius:3,
-          label:'Score'
-        }
-      ]
+      labels: sortedRows.map(r => r.label),
+      datasets:[{
+        data: sortedRows.map(r => r.score),
+        backgroundColor: sortedRows.map(r => {
+          const t = tierOf(r.score);
+          return t==='Momentum' ? AM : t==='Mastery' ? GR : RD;
+        }),
+        borderRadius: 2,
+        borderSkipped: false,
+        barPercentage: 0.95,
+        categoryPercentage: 0.92,
+        label: 'Score'
+      }]
     },
     options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      responsive:true, maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
-        tooltip:{callbacks:{label:c=>' Score: '+c.raw+' / 58  ('+tierOf(c.raw)+')'}}
+        tooltip:{callbacks:{label: c => ` Score: ${c.raw} / ${maxScore}  (${tierOf(c.raw)})`}}
       },
       scales:{
-        x:{min:0,max:58,grid:gs,ticks:Object.assign({stepSize:10},tc)},
-        y:{grid:{display:false},ticks:tc}
+        x:{
+          grid:{display:false},
+          ticks:Object.assign({autoSkip:false, maxRotation:90, minRotation: sortedRows.length > 15 ? 90 : 0, font:{size: sortedRows.length > 25 ? 8 : 9}}, {color:'#999'})
+        },
+        y:{
+          min:0, max:maxScore,
+          grid:gs,
+          ticks:Object.assign({stepSize:10},tc),
+          title:{display:true, text:'Score (out of 58)', color:'#888', font:{size:10}}
+        }
       }
     },
     plugins:[{
+      // Draw the Momentum band (20–39) as a horizontal shaded zone behind the bars.
       id:'momentumBand',
       beforeDatasetsDraw(chart){
-        const {ctx, chartArea, scales:{x}} = chart;
-        const x1 = x.getPixelForValue(20);
-        const x2 = x.getPixelForValue(39);
+        const {ctx, chartArea, scales:{y}} = chart;
+        const yTop = y.getPixelForValue(39);
+        const yBot = y.getPixelForValue(20);
         ctx.save();
         ctx.fillStyle = 'rgba(243,224,160,0.35)';
-        ctx.fillRect(x1, chartArea.top, x2-x1, chartArea.bottom-chartArea.top);
+        ctx.fillRect(chartArea.left, yTop, chartArea.right - chartArea.left, yBot - yTop);
         ctx.setLineDash([4,3]);
         ctx.strokeStyle = '#c9a227';
         ctx.lineWidth = 1;
-        ctx.strokeRect(x1, chartArea.top, x2-x1, chartArea.bottom-chartArea.top);
+        ctx.strokeRect(chartArea.left, yTop, chartArea.right - chartArea.left, yBot - yTop);
         ctx.restore();
       }
     }]
@@ -793,18 +747,20 @@ function renderOverviewCharts(model){
     options: hbOpts(Math.max(3, ...indEntries.map(e=>e[1])))
   });
 
-  // Size (doughnut) — build legend dynamically
+  // Size (doughnut) — legend built dynamically, then chart
   destroyChart('c_size');
   const sizeEntries = Object.entries(model.sizes).sort((a,b)=>b[1]-a[1]);
   const sizeColors = sizeEntries.map((_,i)=>SIZE_COLORS[i % SIZE_COLORS.length]);
   const leg = document.getElementById('leg_size');
-  leg.innerHTML = '';
-  sizeEntries.forEach((e,i)=>{
-    const s = document.createElement('span');
-    s.className = 'li';
-    s.innerHTML = `<span class="ld" style="background:${sizeColors[i]}"></span>${e[0]||'—'} (${e[1]})`;
-    leg.appendChild(s);
-  });
+  if(leg){
+    leg.innerHTML = '';
+    sizeEntries.forEach((e,i)=>{
+      const s = document.createElement('span');
+      s.className = 'li';
+      s.innerHTML = `<span class="ld" style="background:${sizeColors[i]}"></span>${e[0]||'—'} (${e[1]})`;
+      leg.appendChild(s);
+    });
+  }
   charts.c_size = new Chart('c_size',{
     type:'doughnut',
     data:{ labels:sizeEntries.map(e=>e[0]||'—'),
@@ -845,18 +801,24 @@ function buildDeep(){
     options:hbOpts(Math.max(4, ...times.map(e=>e[1])))
   });
 
+  // AI Usage — bucket all string variants into exactly 3 ordered categories
   destroyChart('c_ai');
-  const aiOrder = ['Yes, regularly','Occasionally','Not yet'];
-  const aiColors = [GR, AM, RD];
-  const aiData = aiOrder.map(k => m.aiUsage[k] || findKey(m.aiUsage, k) || 0);
+  const aiBuckets = bucketInto(m.aiUsage, [
+    { label:'Yes, regularly', color: GR, match: v => /regular/i.test(v) || (/^yes/i.test(v) && !/partial/i.test(v)) },
+    { label:'Occasionally',   color: AM, match: v => /occasional/i.test(v) || /sometimes/i.test(v) || /partial/i.test(v) },
+    { label:'Not yet',        color: RD, match: v => /not yet/i.test(v) || /^no/i.test(v) || /never/i.test(v) || /not at all/i.test(v) }
+  ]);
   charts.c_ai = new Chart('c_ai',{
     type:'doughnut',
-    data:{ labels:aiOrder, datasets:[{ data:aiData, backgroundColor:aiColors, borderWidth:0 }] },
+    data:{ labels:aiBuckets.labels,
+           datasets:[{ data:aiBuckets.data, backgroundColor:aiBuckets.colors, borderWidth:0 }] },
     options:dnOpts()
   });
 
   destroyChart('c_diff');
-  const diff = Object.entries(m.aiDifficulty).sort((a,b)=>b[1]-a[1]);
+  // Cap AI difficulty at top 8 — long free-text answers were cluttering the chart
+  const diff = Object.entries(m.aiDifficulty).sort((a,b)=>b[1]-a[1]).slice(0,8)
+    .map(([label,val]) => [label.length > 45 ? label.slice(0,42)+'…' : label, val]);
   charts.c_diff = new Chart('c_diff',{
     type:'bar',
     data:{ labels:diff.map(e=>e[0]), datasets:[{ data:diff.map(e=>e[1]), backgroundColor:T, borderRadius:3 }] },
@@ -871,15 +833,37 @@ function buildDeep(){
     options:hbOpts(Math.max(5, ...wow.map(e=>e[1])))
   });
 
+  // Impact — same 3-bucket approach
   destroyChart('c_imp');
-  const impOrder = ['Yes clearly','Partially','No'];
-  const impColors = [GR, AM, RD];
-  const impData = impOrder.map(k => m.impact[k] || findKey(m.impact, k) || 0);
+  const impBuckets = bucketInto(m.impact, [
+    { label:'Yes clearly', color: GR, match: v => /clear/i.test(v) || (/^yes/i.test(v) && !/partial/i.test(v)) },
+    { label:'Partially',   color: AM, match: v => /partial/i.test(v) || /somewhat/i.test(v) },
+    { label:'No',          color: RD, match: v => /^no/i.test(v) || /not at all/i.test(v) }
+  ]);
   charts.c_imp = new Chart('c_imp',{
     type:'doughnut',
-    data:{ labels:impOrder, datasets:[{ data:impData, backgroundColor:impColors, borderWidth:0 }] },
+    data:{ labels:impBuckets.labels,
+           datasets:[{ data:impBuckets.data, backgroundColor:impBuckets.colors, borderWidth:0 }] },
     options:dnOpts()
   });
+}
+
+/* Bucket a countBy() result into fixed ordered categories, by regex match.
+   Any value that matches no bucket is dropped (prevents random raw strings
+   like 'TRUE' or 'Sometimes yes' from becoming their own slice). */
+function bucketInto(countMap, buckets){
+  const data = buckets.map(()=>0);
+  Object.entries(countMap).forEach(([key, count]) => {
+    for(let i=0; i<buckets.length; i++){
+      if(buckets[i].match(key)){ data[i] += count; return; }
+    }
+    // unmatched — dropped by design
+  });
+  return {
+    labels: buckets.map(b=>b.label),
+    data,
+    colors: buckets.map(b=>b.color)
+  };
 }
 
 function buildScoring(){
