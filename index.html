@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<title>AI Business Diagnostic — Strategic Readiness 2026</title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<div class="wrapper">
+  <div class="hdr">
+    <div class="hdr-org">GMHR × MOOOVE</div>
+    <div class="hdr-title">AI Business Diagnostic — Strategic Readiness 2026</div>
+    <div class="hdr-meta" id="hdr-meta">Fetching respondents...</div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" data-target="0">Overview</div>
+    <div class="tab" data-target="1">Deep Dive</div>
+    <div class="tab" data-target="2">Scoring Reference</div>
+  </div>
+  <div class="body">
+
+    <!-- PAGE 0: OVERVIEW -->
+    <div class="page active" id="pg0">
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-lbl">Total respondents</div>
+          <div class="kpi-val" id="kpi-total">-</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Avg maturity score</div>
+          <div class="kpi-val" id="kpi-avg">-</div>
+          <div class="kpi-sub" id="kpi-range">Range: - to -</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Dominant tier</div>
+          <div class="kpi-val" style="font-size:14px;padding-top:5px" id="kpi-tier">-</div>
+          <div class="kpi-sub" id="kpi-tier-sub">-</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-lbl">Losing time / money</div>
+          <div class="kpi-val" id="kpi-loss">-</div>
+          <div class="kpi-sub" id="kpi-loss-sub">-</div>
+        </div>
+      </div>
+
+      <!-- Insight Bot -->
+      <div class="row" style="grid-template-columns:1fr; margin-bottom: 12px;">
+        <div class="card" style="background:#e8f3f0; border: 1px solid #cde8e4;">
+          <div class="card-title" style="color:#1a6b5a;">🧠 The Architect Insight Bot</div>
+          <div style="font-size:11.5px; line-height:1.5; color:#2a5c52;" id="insight-bot-text">
+            Analyzing cohort data...
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-title">Tier distribution — current cohort</div>
+          <div class="legend">
+            <span class="li"><span class="ld" style="background:#c0392b"></span>Ignition</span>
+            <span class="li"><span class="ld" style="background:#c9a227"></span>Momentum</span>
+            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Mastery</span>
+          </div>
+          <div style="position:relative;width:100%;height:225px"><canvas id="c_score"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Time Loss Mapping (Where is time lost most?)</div>
+          <div style="position:relative;width:100%;height:255px"><canvas id="c_time"></canvas></div>
+        </div>
+      </div>
+
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-title">Company size</div>
+          <div class="legend" id="l_size"></div>
+          <div style="position:relative;width:100%;height:175px"><canvas id="c_size"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Respondent roles</div>
+          <div style="position:relative;width:100%;height:195px"><canvas id="c_role"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 1: DEEP DIVE -->
+    <div class="page" id="pg1">
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-title">Way of working</div>
+          <div style="position:relative;width:100%;height:215px"><canvas id="c_wow"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Industry (if available)</div>
+          <div style="position:relative;width:100%;height:215px"><canvas id="c_ind"></canvas></div>
+        </div>
+      </div>
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-title">AI usage level</div>
+          <div class="legend">
+            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Yes, regularly</span>
+            <span class="li"><span class="ld" style="background:#c9a227"></span>Occasionally</span>
+            <span class="li"><span class="ld" style="background:#c0392b"></span>Not yet</span>
+          </div>
+          <div style="position:relative;width:100%;height:165px"><canvas id="c_ai"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Main AI difficulty</div>
+          <div style="position:relative;width:100%;height:205px"><canvas id="c_diff"></canvas></div>
+        </div>
+      </div>
+      <div class="row" style="grid-template-columns:1fr 1fr">
+        <div class="card">
+          <div class="card-title">Business pressures (if available)</div>
+          <div style="position:relative;width:100%;height:165px"><canvas id="c_press"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Impact measurement</div>
+          <div class="legend">
+            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Yes clearly</span>
+            <span class="li"><span class="ld" style="background:#c9a227"></span>Partially</span>
+            <span class="li"><span class="ld" style="background:#c0392b"></span>No</span>
+          </div>
+          <div style="position:relative;width:100%;min-height:250px"><canvas id="c_imp"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: SCORING REFERENCE -->
+    <div class="page" id="pg2">
+      <div class="note-bar">These two tables mirror the <strong>HTML_ScoreTable</strong> and <strong>HTML_ScoreLegend</strong> DAX measures used in Power BI. In Power BI, place two HTML Content visuals side-by-side pointing to each measure.</div>
+      <div class="stw">
+        <div class="htc">
+          <div class="htc-title">Scoring matrix — HTML_ScoreTable</div>
+          <table class="st">
+            <colgroup><col style="width:17%"><col style="width:21%"><col style="width:7%"><col style="width:55%"></colgroup>
+            <thead><tr><th>Question</th><th>Answer Choice</th><th>Pts</th><th>Strategic Significance</th></tr></thead>
+            <tbody>
+              <tr><td class="q" rowspan="4">1.2 Company size</td><td>1–50</td><td>+1</td><td>Boutique scale; limited automation volume.</td></tr>
+              <tr><td>50–200</td><td>+3</td><td>Growing complexity; manual processes starting to break.</td></tr>
+              <tr><td>200–500</td><td>+5</td><td>Mid-market; high ROI for systemic integration.</td></tr>
+              <tr><td>500+</td><td>+8</td><td>Enterprise scale; maximum impact for AI integration.</td></tr>
+              <tr><td class="q" rowspan="5">1.3 Current role</td><td>CEO / Founder</td><td>+10</td><td>Decision Power: Can greenlight group-level shifts.</td></tr>
+              <tr><td>Director / Head of</td><td>+10</td><td>Strategic Lead: High influence on departmental spend.</td></tr>
+              <tr><td>HR Manager / L&D</td><td>+5</td><td>Tactical Lead: Core user for recruitment/upskilling AI.</td></tr>
+              <tr><td>Operational Manager</td><td>+2</td><td>End User: Focus on individual task automation.</td></tr>
+              <tr><td>Other</td><td>+1</td><td>Lower authority signal.</td></tr>
+              <tr><td class="q" rowspan="8">3.2 Where do you lose time?</td><td>Decision-making</td><td>+10</td><td>Needs Data Intelligence (Power BI / AI Synthesis).</td></tr>
+              <tr><td>Reporting / admin</td><td>+8</td><td>Direct path for n8n automation.</td></tr>
+              <tr><td>Searching for info</td><td>+8</td><td>High ROI for RAG (Knowledge Bases).</td></tr>
+              <tr><td>Recruitment</td><td>+5</td><td>Value for Data Analytics.</td></tr>
+              <tr><td>Training / upskilling</td><td>+5</td><td>Signal for public transformation programs.</td></tr>
+              <tr><td>Content creation</td><td>+1</td><td>Standard GenAI usage; low barrier to entry.</td></tr>
+              <tr><td>Team management</td><td>+3</td><td>Mostly human-centric; secondary AI ROI.</td></tr>
+              <tr><td>Other</td><td>+1</td><td>Low diagnostic signal.</td></tr>
+              <tr><td class="q" rowspan="4">4.1 Way of Working</td><td>KPI tracking</td><td>+10</td><td>Infrastructure Ready: Data culture exists.</td></tr>
+              <tr><td>Processes not measured</td><td>+5</td><td>Needs "Align" phase to establish baselines.</td></tr>
+              <tr><td>Some tools / unstructured</td><td>+3</td><td>Heavy "Build" phase required.</td></tr>
+              <tr><td>Mostly intuition-based</td><td>+1</td><td>Foundational training required.</td></tr>
+              <tr><td class="q" rowspan="3">4.2 Impact Measurement</td><td>Yes clearly</td><td>+10</td><td>High maturity; ready for advanced AI metrics.</td></tr>
+              <tr><td>Partially</td><td>+5</td><td>Mid-tier readiness.</td></tr>
+              <tr><td>No</td><td>+1</td><td>Data collection is the first priority.</td></tr>
+              <tr><td class="q" rowspan="3">5.1 AI Usage Level</td><td>Yes, regularly</td><td>+10</td><td>Early Adopter: Rapid adoption likely.</td></tr>
+              <tr><td>Occasionally</td><td>+5</td><td>Needs structured use cases.</td></tr>
+              <tr><td>Not yet</td><td>+1</td><td>High resistance or unawareness.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="htc">
+          <div class="htc-title">Tier legend — HTML_ScoreLegend</div>
+          <table class="lt">
+            <thead><tr><th></th><th>Tier</th><th>Score</th><th>Profile</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="text-align:center;font-size:15px">🔥</td>
+                <td><span class="tier-label" style="color:#c0392b">Ignition</span></td>
+                <td style="white-space:nowrap">&lt; 20</td>
+                <td>The Digital Explorer. Operating mostly on intuition with little to no AI structure.</td>
+              </tr>
+              <tr style="background:#fafafa">
+                <td style="text-align:center;font-size:15px">⚙️</td>
+                <td><span class="tier-label" style="color:#7a6a2a">Momentum</span></td>
+                <td style="white-space:nowrap">20 – 39</td>
+                <td>The Practical Implementer. Occasional AI users with clear manual bottlenecks in recruitment or admin.</td>
+              </tr>
+              <tr>
+                <td style="text-align:center;font-size:15px">🚀</td>
+                <td><span class="tier-label" style="color:#1a6b5a">Mastery</span></td>
+                <td style="white-space:nowrap">&ge; 40</td>
+                <td>The Strategic Architect. High authority, established data culture, and regular AI use.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="card-title" style="margin-top:18px;margin-bottom:8px;font-size:11px;font-weight:600;color:#555">Tier distribution — current cohort</div>
+          <div class="legend">
+            <span class="li"><span class="ld" style="background:#c0392b"></span>Ignition</span>
+            <span class="li"><span class="ld" style="background:#c9a227"></span>Momentum</span>
+            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Mastery</span>
+          </div>
+          <div style="position:relative;width:100%;height:115px"><canvas id="c_tier"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="module" src="/main.js"></script>
+</body>
+</html>
