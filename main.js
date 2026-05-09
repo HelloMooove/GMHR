@@ -239,9 +239,9 @@ function updateDashboardUI() {
 
 
 function generateInsightBot() {
-  // Rule-based synthesis. Frames the cohort's AI readiness for Mauritius
-  // businesses in line with the maturity score (Ignition / Momentum / Mastery).
-  // Tool-agnostic on purpose — recommendations are strategic, not prescriptive.
+  // Frames the cohort's AI readiness for Mauritius businesses in line with
+  // the maturity score (Ignition / Momentum / Mastery). Insights only,
+  // no prescriptive recommendations.
   let sortedDiffs = Object.entries(appData.stats.diff).sort((a,b) => b[1]-a[1]);
   let topDiff = sortedDiffs.length ? sortedDiffs[0][0] : 'General Adoption';
   if(!topDiff || topDiff==='undefined') topDiff = "Not knowing where to start";
@@ -253,23 +253,17 @@ function generateInsightBot() {
   const tier = appData.dominantTier;
 
   let readiness = '';
-  let recommendation = '';
-
   if (tier === 'Ignition') {
-    readiness = `Most Mauritius businesses in this cohort sit at the <strong>early stage</strong> of AI readiness — operating largely on intuition, with little or no structured AI practice in place. Time is still lost on "${topTimeLoss}".`;
-    recommendation = `start by building AI literacy across leadership and teams, identify two or three high-friction processes worth automating, and put basic data and security hygiene in place before scaling.`;
+    readiness = `Most Mauritius businesses in this cohort sit at the <strong>early stage</strong> of AI readiness, operating largely on intuition with little or no structured AI practice in place. Time is still lost on "${topTimeLoss}".`;
   } else if (tier === 'Momentum') {
-    readiness = `The cohort is at the <strong>building stage</strong> of AI readiness — first use cases are live but value is uneven, and processes remain bottlenecked by "${topTimeLoss}".`;
-    recommendation = `connect isolated initiatives into a single AI roadmap, define ownership for each priority, and turn ad-hoc wins into repeatable workflows that the whole team can rely on.`;
-  } else { // Mastery
-    readiness = `The cohort is at the <strong>advanced stage</strong> of AI readiness — AI is part of how the business runs, with measurable gains and a structured approach to operations.`;
-    recommendation = `shift the focus to scaling impact across the whole organisation, hardening governance and data quality, and turning AI capability into a competitive advantage on the Mauritius market.`;
+    readiness = `The cohort is at the <strong>building stage</strong> of AI readiness: first use cases are live but value is uneven, and processes remain bottlenecked by "${topTimeLoss}".`;
+  } else {
+    readiness = `The cohort is at the <strong>advanced stage</strong> of AI readiness: AI is part of how the business runs, with measurable gains and a structured approach to operations.`;
   }
 
   let sentences = [
     readiness,
-    `The most cited block to progress is "${topDiff}".`,
-    `<strong>Architect Recommendation:</strong> ${recommendation}`
+    `The most cited block to progress is "${topDiff}".`
   ];
   document.getElementById('insight-bot-text').innerHTML = sentences.join(" ");
 }
