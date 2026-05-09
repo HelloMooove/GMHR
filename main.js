@@ -239,8 +239,9 @@ function updateDashboardUI() {
 
 
 function generateInsightBot() {
-  // Rule based synthesis
-  // Get top AI difficulty
+  // Rule-based synthesis. Frames the cohort's AI readiness for Mauritius
+  // businesses in line with the maturity score (Ignition / Momentum / Mastery).
+  // Tool-agnostic on purpose — recommendations are strategic, not prescriptive.
   let sortedDiffs = Object.entries(appData.stats.diff).sort((a,b) => b[1]-a[1]);
   let topDiff = sortedDiffs.length ? sortedDiffs[0][0] : 'General Adoption';
   if(!topDiff || topDiff==='undefined') topDiff = "Not knowing where to start";
@@ -249,21 +250,26 @@ function generateInsightBot() {
   let topTimeLoss = sortedTime.length ? sortedTime[0][0] : 'admin tasks';
   if(!topTimeLoss || topTimeLoss==='undefined') topTimeLoss = "reporting / admin";
 
-  let suggestion = "implementing foundational training and simplified ChatGPT/Claude policies";
-  if (topDiff.toLowerCase().includes('data privacy') || topDiff.toLowerCase().includes('security')) {
-    suggestion = "deploying an enterprise-grade secure environment via Azure OpenAI or custom LangChain wrappers to ensure data isolation";
-  } else if (topDiff.toLowerCase().includes('structure')) {
-    suggestion = "a phased automation pipeline using n8n or Zapier to connect isolated productivity tools";
-  } else if (topTimeLoss.toLowerCase().includes('decision') || topTimeLoss.toLowerCase().includes('report')) {
-    suggestion = "standardizing on Power BI paired with an AI Copilot for direct executive data intelligence";
-  } else if (topTimeLoss.toLowerCase().includes('search') || topTimeLoss.toLowerCase().includes('info')) {
-    suggestion = "building an internal RAG (Retrieval-Augmented Generation) Knowledge Base using Dify or Langflow";
+  const tier = appData.dominantTier;
+
+  let readiness = '';
+  let recommendation = '';
+
+  if (tier === 'Ignition') {
+    readiness = `Most Mauritius businesses in this cohort sit at the <strong>early stage</strong> of AI readiness — operating largely on intuition, with little or no structured AI practice in place. Time is still lost on "${topTimeLoss}".`;
+    recommendation = `start by building AI literacy across leadership and teams, identify two or three high-friction processes worth automating, and put basic data and security hygiene in place before scaling.`;
+  } else if (tier === 'Momentum') {
+    readiness = `The cohort is at the <strong>building stage</strong> of AI readiness — first use cases are live but value is uneven, and processes remain bottlenecked by "${topTimeLoss}".`;
+    recommendation = `connect isolated initiatives into a single AI roadmap, define ownership for each priority, and turn ad-hoc wins into repeatable workflows that the whole team can rely on.`;
+  } else { // Mastery
+    readiness = `The cohort is at the <strong>advanced stage</strong> of AI readiness — AI is part of how the business runs, with measurable gains and a structured approach to operations.`;
+    recommendation = `shift the focus to scaling impact across the whole organisation, hardening governance and data quality, and turning AI capability into a competitive advantage on the Mauritius market.`;
   }
 
   let sentences = [
-    `The cohort is currently operating within the <strong>${appData.dominantTier}</strong> tier, indicating that processes are bottlenecked largely by "${topTimeLoss}".`,
-    `A significant block to progress reported is "${topDiff}".`,
-    `<strong>Architect Recommendation:</strong> High-ROI time-savings can be unlocked immediately by ${suggestion}.`
+    readiness,
+    `The most cited block to progress is "${topDiff}".`,
+    `<strong>Architect Recommendation:</strong> ${recommendation}`
   ];
   document.getElementById('insight-bot-text').innerHTML = sentences.join(" ");
 }
