@@ -95,6 +95,10 @@ async function init() {
     const records = await base(TABLE_NAME).select().all();
     processData(records);
     updateDashboardUI();
+    // Expose to extra/inline charts that live outside the bundle, then
+    // fire a ready event so they can render at the right moment.
+    window.appData = appData;
+    window.dispatchEvent(new CustomEvent('gmhrDataReady', { detail: appData }));
     console.log("Successfully rendered dashboard with data");
   } catch (error) {
     console.error("Error fetching Airtable raw data", error);

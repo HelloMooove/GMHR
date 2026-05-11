@@ -6,6 +6,99 @@
 <title>AI Business Diagnostic — Strategic Readiness 2026</title>
   <script type="module" crossorigin src="/GMHR/assets/index-BOUWyISt.js"></script>
   <link rel="stylesheet" crossorigin href="/GMHR/assets/index-BG_5So6C.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Mooove brand identity overrides (Identité Visuelle V1.0)
+       Palette: Navy #052139 · Electric #3c5eab · Cyan #2ac2de
+                Sky #c7eafb · Ice #eff9fe · Amber #f6923e
+       Type:    Aktiv Grotesk (preferred) → Inter (free fallback)
+       ============================================================ */
+    :root {
+      --mv-navy:     #052139;
+      --mv-electric: #3c5eab;
+      --mv-cyan:     #2ac2de;
+      --mv-sky:      #c7eafb;
+      --mv-ice:      #eff9fe;
+      --mv-amber:    #f6923e;
+      --mv-text:     #052139;
+      --mv-text-muted: #5a6b7e;
+      --mv-text-faint: #94a3b8;
+    }
+
+    html, body, button, input, select, textarea {
+      font-family: "Aktiv Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    }
+    body {
+      background: var(--mv-ice) !important;
+      color: var(--mv-text);
+      font-size: 13px;
+    }
+
+    /* Wrapper / shell */
+    .wrapper { box-shadow: 0 4px 24px rgba(5, 33, 57, 0.08) !important; background: #fff; }
+
+    /* Header — Navy with a Cyan eyebrow */
+    .hdr {
+      background: var(--mv-navy) !important;
+      color: var(--mv-ice) !important;
+      padding: 20px 26px !important;
+    }
+    .hdr-org {
+      color: var(--mv-cyan) !important;
+      opacity: 1 !important;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.14em !important;
+      font-size: 10px !important;
+    }
+    .hdr-title {
+      color: var(--mv-ice) !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.01em;
+      font-size: 22px !important;
+      margin-top: 6px;
+    }
+    .hdr-meta { color: var(--mv-sky) !important; opacity: 0.75 !important; font-size: 11px !important; margin-top: 4px !important; }
+
+    /* Tabs — sit under the navy header, with cyan active accent */
+    .tabs { background: #0a3458 !important; padding: 0 22px !important; }
+    .tab { color: rgba(239,249,254,0.6) !important; font-weight: 500 !important; letter-spacing: 0; padding: 11px 18px !important; font-size: 12px !important; }
+    .tab:hover { color: rgba(239,249,254,0.9) !important; }
+    .tab.active {
+      color: var(--mv-cyan) !important;
+      background: transparent !important;
+      border-bottom-color: var(--mv-cyan) !important;
+      font-weight: 600 !important;
+    }
+
+    /* Cards & body */
+    .body { background: var(--mv-ice) !important; padding: 16px !important; }
+    .card { border: 1px solid #e3edf3 !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(5,33,57,0.03); }
+    .card-title { color: var(--mv-navy) !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: 0; }
+
+    /* KPI cards */
+    .kpi { border: 1px solid #e3edf3 !important; border-radius: 10px !important; box-shadow: 0 1px 3px rgba(5,33,57,0.03); }
+    .kpi-row-v2 .kpi          { padding: 18px 20px; }
+    .kpi-row-v2 .kpi-lbl      { color: var(--mv-text-muted); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; margin-bottom: 8px; }
+    .kpi-row-v2 .kpi-val      { color: var(--mv-navy); font-size: 38px; font-weight: 700; line-height: 1; padding: 0; margin-bottom: 8px; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
+    .kpi-row-v2 .kpi-sub      { color: var(--mv-text-muted); font-size: 11.5px; font-weight: 400; line-height: 1.35; margin: 0; }
+
+    /* Badges (used by bundle tier writer) — neutralise the legacy amber pill */
+    .badge-mo { background: var(--mv-sky) !important; color: var(--mv-navy) !important; }
+
+    /* Note bar (Scoring Reference) — was teal */
+    .note-bar { background: var(--mv-ice) !important; color: var(--mv-navy) !important; border-left-color: var(--mv-cyan) !important; }
+
+    /* Scoring tables — was teal */
+    table.st thead th, table.lt thead th { background: var(--mv-navy) !important; border-color: var(--mv-navy) !important; }
+    table.st tbody td.q { background: var(--mv-ice) !important; color: var(--mv-navy) !important; }
+
+    /* Tier dot in scoring ref (mastery label) */
+    .tier-label { color: var(--mv-navy) !important; }
+  </style>
 </head>
 <body>
 <div class="wrapper">
@@ -23,35 +116,43 @@
 
     <!-- PAGE 0: OVERVIEW -->
     <div class="page active" id="pg0">
-      <div class="kpi-row">
+      <div class="kpi-row kpi-row-v2">
         <div class="kpi">
           <div class="kpi-lbl">Total respondents</div>
           <div class="kpi-val" id="kpi-total">-</div>
+          <div class="kpi-sub">Executive and operational sample</div>
         </div>
         <div class="kpi">
-          <div class="kpi-lbl">Avg maturity score</div>
+          <div class="kpi-lbl">Average maturity score</div>
           <div class="kpi-val" id="kpi-avg">-</div>
-          <div class="kpi-sub" id="kpi-range">Range: - to -</div>
+          <div class="kpi-sub" id="kpi-range">Range - to -</div>
         </div>
         <div class="kpi">
-          <div class="kpi-lbl">Dominant tier</div>
-          <div class="kpi-val" style="font-size:14px;padding-top:5px" id="kpi-tier">-</div>
+          <div class="kpi-lbl">Dominant maturity tier</div>
+          <div class="kpi-val" id="kpi-tier">-</div>
           <div class="kpi-sub" id="kpi-tier-sub">-</div>
         </div>
         <div class="kpi">
-          <div class="kpi-lbl">Losing time / money</div>
+          <div class="kpi-lbl">Losing time or money</div>
           <div class="kpi-val" id="kpi-loss">-</div>
           <div class="kpi-sub" id="kpi-loss-sub">-</div>
         </div>
       </div>
 
-      <!-- Insight Bot -->
-      <div class="row" style="grid-template-columns:1fr; margin-bottom: 12px;">
-        <div class="card" style="background:#e8f3f0; border: 1px solid #cde8e4;">
-          <div class="card-title" style="color:#1a6b5a;">🧠 The Architect Insight Bot</div>
-          <div style="font-size:11.5px; line-height:1.5; color:#2a5c52;" id="insight-bot-text">
-            Analyzing cohort data...
-          </div>
+      <!-- Executive Diagnosis (dynamic, data-driven) -->
+      <div class="row" id="exec_diag_row" style="grid-template-columns: 2fr 1fr; margin-bottom: 12px; align-items: stretch;">
+        <div class="card" style="background:#eff9fe; border:1px solid #c7eafb; display:flex; flex-direction:column; gap:12px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;color:#052139;text-transform:uppercase;">Executive Diagnosis</div>
+          <div id="exec_diag_headline" style="font-size:22px;font-weight:700;color:#052139;line-height:1.25;letter-spacing:-0.01em;">Analyzing cohort data…</div>
+          <div id="exec_diag_body" style="font-size:12.5px;color:#0a3458;line-height:1.55;">—</div>
+          <div id="exec_diag_tags" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;"></div>
+          <!-- kept hidden so the bundle's legacy writer does not error -->
+          <div id="insight-bot-text" style="display:none"></div>
+        </div>
+        <div class="card" style="background:#eff9fe; border:1px solid #c7eafb; border-left: 4px solid #2ac2de;">
+          <div style="font-size:13px;font-weight:600;color:#052139;margin-bottom:10px;">Key takeaway</div>
+          <div id="exec_diag_takeaway_head" style="font-size:13px;font-weight:700;color:#052139;line-height:1.4;margin-bottom:8px;">—</div>
+          <div id="exec_diag_takeaway_body" style="font-size:12px;color:#0a3458;line-height:1.55;">—</div>
         </div>
       </div>
 
@@ -59,9 +160,9 @@
         <div class="card">
           <div class="card-title">Tier distribution — current cohort</div>
           <div class="legend">
-            <span class="li"><span class="ld" style="background:#c0392b"></span>Ignition</span>
-            <span class="li"><span class="ld" style="background:#c9a227"></span>Momentum</span>
-            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Mastery</span>
+            <span class="li"><span class="ld" style="background:#f6923e"></span>Ignition</span>
+            <span class="li"><span class="ld" style="background:#3c5eab"></span>Momentum</span>
+            <span class="li"><span class="ld" style="background:#052139"></span>Mastery</span>
           </div>
           <div style="position:relative;width:100%;height:225px"><canvas id="c_score"></canvas></div>
         </div>
@@ -82,6 +183,45 @@
           <div style="position:relative;width:100%;height:195px"><canvas id="c_role"></canvas></div>
         </div>
       </div>
+
+      <!-- Risk vs. Readiness Heatmap (Graph 1) -->
+      <div class="row" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="card-title">Risk vs. Readiness — Concern × Maturity tier</div>
+          <div class="card-sub" id="rvr_sub" style="font-size:11px;color:#6b7280;margin:2px 0 6px;">—</div>
+          <div id="c_rvr" style="width:100%;overflow-x:auto;"></div>
+        </div>
+      </div>
+
+      <!-- Keynote Pulse: Content Demand (Graph 5) -->
+      <div class="row" id="pulse_row" style="grid-template-columns:2fr 1fr;align-items:start">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;background:#052139;color:#fff;padding:12px 16px;font-weight:600;font-size:13px;">
+            <span>What the audience wants to see</span>
+            <span style="font-weight:500;font-size:11px;opacity:0.85">% of selections</span>
+          </div>
+          <div id="pulse_list" style="padding:6px 0"></div>
+          <div style="padding:8px 16px 14px;font-size:11px;color:#94a3b8;border-top:1px solid #f1f5f9;display:flex;align-items:center;gap:6px">
+            <span style="display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid #cbd5e1;color:#94a3b8;text-align:center;line-height:13px;font-size:10px">i</span>
+            Percentages may not total 100 due to rounding.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-title">Demand share</div>
+            <div style="position:relative;width:100%;height:240px"><canvas id="c_pulse"></canvas></div>
+          </div>
+          <div class="card" style="background:#eff9fe;border:1px solid #c7eafb">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:#c7eafb;display:flex;align-items:center;justify-content:center;font-size:18px">🚀</div>
+              <div>
+                <div style="font-weight:700;color:#052139;font-size:13px;margin-bottom:4px">Key takeaway</div>
+                <div id="pulse_takeaway" style="font-size:11.5px;color:#0a3458;line-height:1.5">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- PAGE 1: DEEP DIVE -->
@@ -100,15 +240,15 @@
         <div class="card">
           <div class="card-title">AI usage level</div>
           <div class="legend">
-            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Yes, regularly</span>
-            <span class="li"><span class="ld" style="background:#c9a227"></span>Occasionally</span>
-            <span class="li"><span class="ld" style="background:#c0392b"></span>Not yet</span>
+            <span class="li"><span class="ld" style="background:#052139"></span>Yes, regularly</span>
+            <span class="li"><span class="ld" style="background:#3c5eab"></span>Occasionally</span>
+            <span class="li"><span class="ld" style="background:#f6923e"></span>Not yet</span>
           </div>
           <div style="position:relative;width:100%;height:165px"><canvas id="c_ai"></canvas></div>
         </div>
         <div class="card">
           <div class="card-title">Main AI difficulty</div>
-          <div style="position:relative;width:100%;height:205px"><canvas id="c_diff"></canvas></div>
+          <div id="c_diff_list" style="display:flex;flex-direction:column;gap:14px;padding-top:6px;min-height:205px;"></div>
         </div>
       </div>
       <div class="row" style="grid-template-columns:1fr 1fr">
@@ -119,11 +259,36 @@
         <div class="card">
           <div class="card-title">Impact measurement</div>
           <div class="legend">
-            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Yes clearly</span>
-            <span class="li"><span class="ld" style="background:#c9a227"></span>Partially</span>
-            <span class="li"><span class="ld" style="background:#c0392b"></span>No</span>
+            <span class="li"><span class="ld" style="background:#052139"></span>Yes clearly</span>
+            <span class="li"><span class="ld" style="background:#3c5eab"></span>Partially</span>
+            <span class="li"><span class="ld" style="background:#f6923e"></span>No</span>
           </div>
           <div style="position:relative;width:100%;min-height:250px"><canvas id="c_imp"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Strategic Priority Heatmap (Graph 2) -->
+      <div class="row" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="card-title">Top 3 Strategic Pillars for 2026</div>
+          <div style="position:relative;width:100%;height:240px"><canvas id="c_prio"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Competitive Risk by Industry (Graph 4) -->
+      <div class="row" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="card-title">Competitive Risk by Industry — 100% stacked</div>
+          <div class="legend" id="l_risk_ind" style="font-size:11px;flex-wrap:wrap;"></div>
+          <div style="position:relative;width:100%;height:330px"><canvas id="c_risk_ind"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Solution Alignment Flow / Sankey (Graph 3) -->
+      <div class="row" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="card-title">Solution Alignment: Pain → Outcome</div>
+          <div id="c_flow" style="width:100%;min-height:340px;overflow:auto;"></div>
         </div>
       </div>
     </div>
@@ -179,7 +344,7 @@
             <tbody>
               <tr>
                 <td style="text-align:center;font-size:15px">🔥</td>
-                <td><span class="tier-label" style="color:#c0392b">Ignition</span></td>
+                <td><span class="tier-label" style="color:#f6923e">Ignition</span></td>
                 <td style="white-space:nowrap">&lt; 20</td>
                 <td>The Digital Explorer. Operating mostly on intuition with little to no AI structure.</td>
               </tr>
@@ -191,7 +356,7 @@
               </tr>
               <tr>
                 <td style="text-align:center;font-size:15px">🚀</td>
-                <td><span class="tier-label" style="color:#1a6b5a">Mastery</span></td>
+                <td><span class="tier-label" style="color:#052139">Mastery</span></td>
                 <td style="white-space:nowrap">&ge; 40</td>
                 <td>The Strategic Architect. High authority, established data culture, and regular AI use.</td>
               </tr>
@@ -200,9 +365,9 @@
 
           <div class="card-title" style="margin-top:18px;margin-bottom:8px;font-size:11px;font-weight:600;color:#555">Tier distribution — current cohort</div>
           <div class="legend">
-            <span class="li"><span class="ld" style="background:#c0392b"></span>Ignition</span>
-            <span class="li"><span class="ld" style="background:#c9a227"></span>Momentum</span>
-            <span class="li"><span class="ld" style="background:#1a6b5a"></span>Mastery</span>
+            <span class="li"><span class="ld" style="background:#f6923e"></span>Ignition</span>
+            <span class="li"><span class="ld" style="background:#3c5eab"></span>Momentum</span>
+            <span class="li"><span class="ld" style="background:#052139"></span>Mastery</span>
           </div>
           <div style="position:relative;width:100%;height:115px"><canvas id="c_tier"></canvas></div>
         </div>
@@ -211,6 +376,783 @@
 
   </div>
 </div>
+
+<!--
+  Extra charts (Risk vs Readiness, Keynote Pulse, Strategic Priorities,
+  Competitive Risk by Industry, Solution Alignment flow).
+  Lives outside the Vite bundle on purpose so it can be iterated without
+  rebuilding. Reads window.appData which is populated by the bundle and
+  signals via the `gmhrDataReady` custom event.
+-->
+<script type="module">
+import Chart from 'https://cdn.jsdelivr.net/npm/chart.js@4.5.1/auto/+esm';
+
+// --- Helpers --------------------------------------------------------------
+// Mooove brand palette (see Identité Visuelle V1.0)
+const BRAND = {
+  NAVY:     '#052139',
+  ELECTRIC: '#3c5eab',
+  CYAN:     '#2ac2de',
+  SKY:      '#c7eafb',
+  ICE:      '#eff9fe',
+  AMBER:    '#f6923e',
+  // derived shades for chart variety while staying inside the family
+  NAVY_2:   '#0a3458',
+  ELECTRIC_2: '#5a7bc8',
+  ELECTRIC_3: '#8aa3d6',
+};
+// Reading colour for risk levels: Amber = warm/concern, Electric = mid, Navy = depth
+const CONCERN_PALETTE = {
+  'Losing market share to tech-enabled competitors':  BRAND.AMBER,        // urgency
+  'Rising operational costs and eroding profit margins': BRAND.NAVY,      // primary risk
+  'Widening tech gap that becomes impossible to bridge': BRAND.ELECTRIC,  // strategic
+  'Inability to attract or retain top talent':        BRAND.ELECTRIC_2,   // human
+  'Stagnation and slow speed to market':              BRAND.SKY,          // cool drift
+};
+// Donut palette: navy → sky gradient with a single amber for "Other" warmth
+const SESSION_PALETTE = [BRAND.NAVY, BRAND.ELECTRIC, BRAND.ELECTRIC_2, BRAND.ELECTRIC_3, BRAND.SKY, '#a8d4ed', BRAND.AMBER];
+
+const tc = { font: { size: 10 }, color: '#999' };
+
+const instances = {};
+function render(id, config) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (instances[id]) instances[id].destroy();
+  instances[id] = new Chart(el, config);
+}
+
+// Generic field getter (Airtable column names may drift slightly)
+function getField(record, keywords) {
+  const key = Object.keys(record).find(k => keywords.some(kw => k.toLowerCase().includes(kw)));
+  return key ? record[key] : null;
+}
+function asArray(v) {
+  if (v == null) return [];
+  if (Array.isArray(v)) return v.filter(x => x != null && x !== '');
+  if (typeof v === 'string') return v.split(',').map(s => s.trim()).filter(Boolean);
+  return [v];
+}
+
+// --- GRAPH 1: Risk vs. Readiness Heatmap --------------------------------
+// Rows = primary concern (Q2.2). Cols = maturity tier (matches the rest of
+// the dashboard: Ignition / Momentum / Mastery). Cell shade = # respondents.
+function renderRiskReadiness(appData) {
+  const host = document.getElementById('c_rvr');
+  if (!host) return;
+  host.innerHTML = '';
+
+  const TIERS = [
+    { key: 'ignition', label: 'Ignition',  range: '< 20',      test: (s) => s < 20  },
+    { key: 'momentum', label: 'Momentum',  range: '20 – 39',   test: (s) => s >= 20 && s < 40 },
+    { key: 'mastery',  label: 'Mastery',   range: '≥ 40',      test: (s) => s >= 40 },
+  ];
+
+  const matrix = {};     // concern -> tierKey -> count
+  const rowTotals = {};  // concern -> total
+  const tierTotals = { ignition: 0, momentum: 0, mastery: 0 };
+  let total = 0, ignitionTotal = 0;
+
+  (appData.respondents || []).forEach(rec => {
+    const score = Number(getField(rec, ['maturity_score', 'maturity score']));
+    if (!Number.isFinite(score)) return;
+    const concerns = asArray(getField(rec, ['2.2', 'if nothing changes', 'concerns']));
+    const concern = concerns[0] || 'Other / not specified';
+    const tier = TIERS.find(t => t.test(score));
+    if (!tier) return;
+    matrix[concern] = matrix[concern] || {};
+    matrix[concern][tier.key] = (matrix[concern][tier.key] || 0) + 1;
+    rowTotals[concern] = (rowTotals[concern] || 0) + 1;
+    tierTotals[tier.key]++;
+    total++;
+    if (tier.key === 'ignition') ignitionTotal++;
+  });
+
+  const concerns = Object.entries(rowTotals).sort((a, b) => b[1] - a[1]).map(e => e[0]);
+  let max = 0;
+  concerns.forEach(c => TIERS.forEach(t => { max = Math.max(max, matrix[c]?.[t.key] || 0); }));
+
+  // Ice Blue → Navy gradient (Mooove brand)
+  const cellBg = (v) => {
+    if (!max || !v) return BRAND.ICE;
+    const t = v / max;
+    // #eff9fe -> #052139
+    const r = Math.round(239 + (5  - 239) * t);
+    const g = Math.round(249 + (33 - 249) * t);
+    const b = Math.round(254 + (57 - 254) * t);
+    return `rgb(${r},${g},${b})`;
+  };
+  const cellFg = (v) => (max && v && v / max > 0.45) ? '#ffffff' : (v ? BRAND.NAVY : '#94a3b8');
+
+  // Build table
+  const table = document.createElement('table');
+  table.style.cssText = 'width:100%;border-collapse:separate;border-spacing:3px;table-layout:fixed;font-family:inherit;';
+
+  // Header
+  const thead = document.createElement('thead');
+  const trh = document.createElement('tr');
+  const corner = document.createElement('th');
+  corner.style.cssText = 'text-align:left;padding:6px 10px;color:#6b7280;font-weight:600;font-size:11px;width:42%;text-transform:uppercase;letter-spacing:0.04em;';
+  corner.textContent = 'Primary concern  ↓  /  Maturity →';
+  trh.appendChild(corner);
+  TIERS.forEach((t, i) => {
+    const th = document.createElement('th');
+    const isIgn = i === 0;
+    th.style.cssText = `padding:6px 10px;text-align:center;font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:${isIgn ? BRAND.AMBER : BRAND.NAVY};border-bottom:${isIgn ? '2px solid ' + BRAND.AMBER : 'none'};`;
+    th.innerHTML = `${t.label}<div style="font-weight:500;font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;margin-top:2px;">score ${t.range}</div>`;
+    trh.appendChild(th);
+  });
+  thead.appendChild(trh);
+  table.appendChild(thead);
+
+  // Body
+  const tbody = document.createElement('tbody');
+  concerns.forEach(concern => {
+    const tr = document.createElement('tr');
+    const labelTd = document.createElement('td');
+    labelTd.style.cssText = 'padding:8px 10px;font-size:12px;color:#1f2937;font-weight:500;line-height:1.3;';
+    labelTd.textContent = concern;
+    tr.appendChild(labelTd);
+    TIERS.forEach((t, i) => {
+      const v = matrix[concern]?.[t.key] || 0;
+      const td = document.createElement('td');
+      td.style.cssText = `text-align:center;padding:14px 6px;font-size:15px;font-weight:700;background:${cellBg(v)};color:${cellFg(v)};border-radius:6px;${i === 0 && v > 0 ? 'box-shadow:inset 0 0 0 1px rgba(246,146,62,0.4);' : ''}`;
+      td.title = `${concern} × ${t.label} (${t.range}) — ${v} respondent${v === 1 ? '' : 's'}`;
+      td.textContent = v || '·';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  // Totals row
+  const trT = document.createElement('tr');
+  const totLabel = document.createElement('td');
+  totLabel.style.cssText = 'padding:10px;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;';
+  totLabel.textContent = 'Tier total';
+  trT.appendChild(totLabel);
+  TIERS.forEach((t, i) => {
+    const td = document.createElement('td');
+    td.style.cssText = `text-align:center;padding:10px;font-size:14px;font-weight:700;color:${i === 0 ? BRAND.AMBER : BRAND.NAVY};`;
+    td.textContent = tierTotals[t.key];
+    trT.appendChild(td);
+  });
+  tbody.appendChild(trT);
+  table.appendChild(tbody);
+
+  host.appendChild(table);
+
+  // Color-scale legend underneath
+  const scale = document.createElement('div');
+  scale.style.cssText = 'display:flex;align-items:center;gap:10px;margin-top:10px;font-size:11px;color:#6b7280;';
+  scale.innerHTML = `
+    <span>Cell colour = # respondents</span>
+    <span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:${cellBg(0)};border:1px solid #e5e7eb"></span>
+    <span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:${cellBg(Math.max(1, max/3))};border:1px solid #e5e7eb"></span>
+    <span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:${cellBg(Math.max(1, (max*2)/3))};border:1px solid #e5e7eb"></span>
+    <span style="display:inline-block;width:24px;height:14px;border-radius:3px;background:${cellBg(max)};border:1px solid #e5e7eb"></span>
+    <span>0  →  ${max}</span>
+    <span style="margin-left:auto;color:${BRAND.AMBER};font-weight:600;">⚠ Ignition column = High Vulnerability Zone</span>
+  `;
+  host.appendChild(scale);
+
+  const sub = document.getElementById('rvr_sub');
+  if (sub) sub.textContent = `${total} respondents · ${ignitionTotal} in the Ignition tier (score < 20).`;
+}
+
+// --- GRAPH 5: Keynote Pulse (ranked list + donut + key takeaway) --------
+const PULSE_COLOR = {
+  'Hands-on Tools & Automation Demos':   BRAND.NAVY,
+  'Industry-Specific Case Studies':      BRAND.ELECTRIC,
+  'Strategic AI Roadmap & 2026 Trends':  BRAND.ELECTRIC_2,
+  'ROI, Budgeting & Financial Impact':   BRAND.ELECTRIC_3,
+  'Budgeting & Financial Impact':        '#a8d4ed',
+  'Networking & Peer Benchmarking':      BRAND.SKY,
+  'Custom Sector Strategy':              BRAND.NAVY_2,
+  'Other':                               BRAND.AMBER,
+};
+const PULSE_FALLBACK = [BRAND.NAVY, BRAND.ELECTRIC, BRAND.ELECTRIC_2, BRAND.ELECTRIC_3, BRAND.SKY, '#a8d4ed', BRAND.NAVY_2, BRAND.AMBER];
+
+// Minimal stroked SVG icons (24×24), currentColor stroke. Picked to mirror
+// the reference: monitor / file / map / folder / calc / target / dots / users.
+const PULSE_ICONS = {
+  'Hands-on Tools & Automation Demos':
+    '<rect x="2" y="4" width="20" height="13" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+  'Industry-Specific Case Studies':
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>',
+  'Strategic AI Roadmap & 2026 Trends':
+    '<polygon points="1 6 8 3 16 6 23 3 23 18 16 21 8 18 1 21 1 6"/><line x1="8" y1="3" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="21"/>',
+  'ROI, Budgeting & Financial Impact':
+    '<path d="M3 7h6l2 3h10v9a2 2 0 0 1-2 2H3z"/><text x="12" y="17" text-anchor="middle" font-size="9" stroke="none" fill="currentColor" font-family="Segoe UI, sans-serif" font-weight="700">$</text>',
+  'Budgeting & Financial Impact':
+    '<rect x="5" y="3" width="14" height="18" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="10" y2="11"/><line x1="13" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="10" y2="15"/><line x1="13" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="10" y2="18"/>',
+  'Custom Sector Strategy':
+    '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  'Other':
+    '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="16" cy="12" r="1"/>',
+  'Networking & Peer Benchmarking':
+    '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+};
+function iconFor(label) {
+  return PULSE_ICONS[label] || '<circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.6"/>';
+}
+function colorFor(label, i) {
+  return PULSE_COLOR[label] || PULSE_FALLBACK[i % PULSE_FALLBACK.length];
+}
+
+// Plugin: draw percentage inside each donut slice
+const donutPercentInside = {
+  id: 'donutPercentInside',
+  afterDraw(chart) {
+    if (chart.config.type !== 'doughnut') return;
+    const { ctx } = chart;
+    const meta = chart.getDatasetMeta(0);
+    const total = meta.total;
+    if (!total) return;
+    ctx.save();
+    ctx.font = '700 12px Segoe UI, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    meta.data.forEach((el, i) => {
+      const val = chart.config.data.datasets[0].data[i];
+      if (!val) return;
+      const pct = Math.round((val / total) * 100);
+      if (pct < 2) return; // hide labels on tiny slices
+      const { x, y } = el.tooltipPosition();
+      // text color: white if slice is dark enough, else dark
+      const c = chart.config.data.datasets[0].backgroundColor[i] || '#000';
+      ctx.fillStyle = isLightColor(c) ? '#1f2937' : '#ffffff';
+      ctx.fillText(pct + '%', x, y);
+    });
+    ctx.restore();
+  }
+};
+function isLightColor(hex) {
+  // Quick perceptual luminance check for hex like #aabbcc
+  if (!hex || hex[0] !== '#' || hex.length < 7) return false;
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return (0.299*r + 0.587*g + 0.114*b) > 170;
+}
+
+function renderKeynotePulse(appData) {
+  const counts = {};
+  (appData.respondents || []).forEach(rec => {
+    const items = asArray(getField(rec, ['6.1', 'session truly useful', 'useful for you']));
+    items.forEach(it => { counts[it] = (counts[it] || 0) + 1; });
+  });
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const total = entries.reduce((s, e) => s + e[1], 0) || 1;
+  const labels = entries.map(e => e[0]);
+  const data = entries.map(e => e[1]);
+  const colors = labels.map((l, i) => colorFor(l, i));
+
+  // --- Ranked list (left card) ---
+  const list = document.getElementById('pulse_list');
+  if (list) {
+    list.innerHTML = entries.map(([label, count], i) => {
+      const pct = Math.round((count / total) * 100);
+      const c = colors[i];
+      const bar = Math.max(2, (count / Math.max(...data, 1)) * 100); // % of bar width
+      const tint = c + '22'; // 13% opacity background for number badge
+      return `
+        <div style="display:grid;grid-template-columns:32px 32px 1fr 60px 50px;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid #f1f5f9">
+          <div style="background:${tint};color:${c};font-weight:700;font-size:12px;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;">${i + 1}</div>
+          <div style="color:${c};display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${iconFor(label)}</svg>
+          </div>
+          <div style="font-size:12.5px;color:#1f2937;line-height:1.25">${label}</div>
+          <div style="height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:${bar}%;background:${c};border-radius:4px;transition:width 240ms"></div>
+          </div>
+          <div style="text-align:right;color:${c};font-weight:700;font-size:14px">${pct}%</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // --- Donut (right top) ---
+  render('c_pulse', {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} (${Math.round((ctx.parsed / total) * 100)}%)` } },
+      },
+    },
+    plugins: [donutPercentInside],
+  });
+
+  // --- Key takeaway (right bottom) ---
+  const takeaway = document.getElementById('pulse_takeaway');
+  if (takeaway) {
+    if (entries.length === 0) {
+      takeaway.textContent = 'No selections yet.';
+    } else {
+      const [first, second] = entries;
+      const top = first[0], topPct = Math.round((first[1] / total) * 100);
+      const runner = second ? second[0] : null;
+      const runnerPct = second ? Math.round((second[1] / total) * 100) : 0;
+      takeaway.innerHTML = runner
+        ? `Your audience is most interested in <strong>${top}</strong> (${topPct}%) and <strong>${runner}</strong> (${runnerPct}%). Lead with these to deliver the most value.`
+        : `Your audience is most interested in <strong>${top}</strong> (${topPct}%). Lead with this to deliver the most value.`;
+    }
+  }
+}
+
+// --- GRAPH 2: Strategic Priority Heatmap (horizontal bar w/ gradient) ---
+function renderPriorities(appData) {
+  const counts = {};
+  (appData.respondents || []).forEach(rec => {
+    const items = asArray(getField(rec, ['3.1', 'top 3 business priorities', 'business priorities']));
+    items.forEach(it => { counts[it] = (counts[it] || 0) + 1; });
+  });
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const labels = entries.map(e => e[0]);
+  const data = entries.map(e => e[1]);
+  const max = Math.max(1, ...data);
+  // Light blue → dark navy gradient based on count
+  const colors = data.map(v => {
+    const t = v / max;
+    // Sky #c7eafb → Navy #052139
+    const r = Math.round(199 + (5  - 199) * t);
+    const g = Math.round(234 + (33 - 234) * t);
+    const b = Math.round(251 + (57 - 251) * t);
+    return `rgb(${r},${g},${b})`;
+  });
+
+  render('c_prio', {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 3 }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x} votes` } } },
+      scales: {
+        x: { min: 0, max: max + 1, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: Object.assign({ stepSize: 1 }, tc) },
+        y: { grid: { display: false }, ticks: Object.assign({ autoSkip: false }, tc) },
+      },
+    },
+  });
+}
+
+// --- GRAPH 4: Competitive Risk by Industry (100% stacked) ---------------
+function renderRiskByIndustry(appData) {
+  // industry -> concern -> count
+  const matrix = {};
+  const concernSet = new Set();
+  (appData.respondents || []).forEach(rec => {
+    const ind = (getField(rec, ['1.1', 'industry']) || '').toString().trim();
+    if (!ind) return;
+    const concerns = asArray(getField(rec, ['2.2', 'if nothing changes', 'concerns']));
+    const concern = concerns[0];
+    if (!concern) return;
+    concernSet.add(concern);
+    matrix[ind] = matrix[ind] || {};
+    matrix[ind][concern] = (matrix[ind][concern] || 0) + 1;
+  });
+  // Hide industries with < 2 respondents (noisy with single records)
+  const industries = Object.entries(matrix)
+    .filter(([, m]) => Object.values(m).reduce((s, v) => s + v, 0) >= 2)
+    .sort((a, b) => Object.values(b[1]).reduce((s,v)=>s+v,0) - Object.values(a[1]).reduce((s,v)=>s+v,0))
+    .map(([k]) => k);
+
+  const concerns = [...concernSet];
+  const datasets = concerns.map(concern => ({
+    label: concern,
+    data: industries.map(ind => {
+      const total = Object.values(matrix[ind]).reduce((s, v) => s + v, 0) || 1;
+      return Math.round(((matrix[ind][concern] || 0) / total) * 100);
+    }),
+    backgroundColor: CONCERN_PALETTE[concern] || '#7f8c8d',
+  }));
+
+  const legend = document.getElementById('l_risk_ind');
+  if (legend) {
+    legend.innerHTML = concerns.map(c =>
+      `<span class="li" style="margin-right:10px"><span class="ld" style="background:${CONCERN_PALETTE[c] || '#7f8c8d'};display:inline-block;width:10px;height:10px;vertical-align:middle;margin-right:4px"></span>${c}</span>`
+    ).join('');
+  }
+
+  render('c_risk_ind', {
+    type: 'bar',
+    data: { labels: industries, datasets },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.x}%` } },
+      },
+      scales: {
+        x: { stacked: true, min: 0, max: 100, ticks: Object.assign({ callback: v => v + '%' }, tc), grid: { color: 'rgba(0,0,0,0.05)' } },
+        y: { stacked: true, grid: { display: false }, ticks: Object.assign({ autoSkip: false }, tc) },
+      },
+    },
+  });
+}
+
+// --- GRAPH 3: Solution Alignment (custom SVG Sankey) --------------------
+function renderSolutionFlow(appData) {
+  const host = document.getElementById('c_flow');
+  if (!host) return;
+  host.innerHTML = '';
+
+  // Collect source -> target pairs (multi-select on both sides)
+  const pairs = {}; // "src||tgt" -> count
+  const srcCounts = {}, tgtCounts = {};
+  const isExcluded = (v) => {
+    const lower = String(v).trim().toLowerCase();
+    return !lower || lower.includes('other') || lower === 'n/a' || lower === 'na' || lower.includes('not applicable');
+  };
+  (appData.respondents || []).forEach(rec => {
+    const srcs = asArray(getField(rec, ['3.3', 'difficult to make', 'difficult decisions']))
+      .filter(s => !isExcluded(s));
+    const tgts = asArray(getField(rec, ['6.2', 'actionable outcome', 'leave with one']))
+      .filter(s => !isExcluded(s));
+    srcs.forEach(s => {
+      srcCounts[s] = (srcCounts[s] || 0) + 1;
+      tgts.forEach(t => {
+        tgtCounts[t] = (tgtCounts[t] || 0) + 1;
+        const k = s + '||' + t;
+        pairs[k] = (pairs[k] || 0) + 1;
+      });
+    });
+  });
+
+  const sources = Object.entries(srcCounts).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  const targets = Object.entries(tgtCounts).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+  if (!sources.length || !targets.length) {
+    host.innerHTML = '<div style="padding:20px;color:#6b7280;font-size:12px">Not enough data yet — needs respondents with both Q3.3 and Q6.2 answered (excluding "Other").</div>';
+    return;
+  }
+
+  // Layout
+  const W = Math.max(720, host.clientWidth || 720);
+  const PAD = 18;
+  const COL_W = 220;
+  const ROW_GAP = 8;
+  const NODE_MIN_H = 24;
+  // Scale node height by count
+  const maxSrc = Math.max(...sources.map(s => srcCounts[s] || 0));
+  const maxTgt = Math.max(...targets.map(t => tgtCounts[t] || 0));
+  const srcUnit = 90 / maxSrc;
+  const tgtUnit = 90 / maxTgt;
+  const srcHeights = sources.map(s => Math.max(NODE_MIN_H, (srcCounts[s] || 0) * srcUnit));
+  const tgtHeights = targets.map(t => Math.max(NODE_MIN_H, (tgtCounts[t] || 0) * tgtUnit));
+  const totalSrcH = srcHeights.reduce((s,h)=>s+h,0) + (sources.length - 1) * ROW_GAP;
+  const totalTgtH = tgtHeights.reduce((s,h)=>s+h,0) + (targets.length - 1) * ROW_GAP;
+  const H = Math.max(totalSrcH, totalTgtH) + PAD * 2 + 40; // 40 for headers
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', H);
+  svg.style.font = '11px Segoe UI, sans-serif';
+
+  // Headers
+  const h1 = document.createElementNS(svgNS, 'text');
+  h1.setAttribute('x', PAD); h1.setAttribute('y', 20);
+  h1.setAttribute('fill', BRAND.AMBER); h1.setAttribute('font-weight', '700');
+  h1.textContent = 'Pain · Difficult decisions';
+  svg.appendChild(h1);
+
+  const h2 = document.createElementNS(svgNS, 'text');
+  h2.setAttribute('x', W - PAD); h2.setAttribute('y', 20);
+  h2.setAttribute('text-anchor', 'end');
+  h2.setAttribute('fill', BRAND.NAVY); h2.setAttribute('font-weight', '700');
+  h2.textContent = 'Outcome · Walk-away';
+  svg.appendChild(h2);
+
+  // Compute Y for each node
+  const yTop = 40;
+  const srcPos = {}; let y = yTop;
+  sources.forEach((s, i) => { srcPos[s] = { y, h: srcHeights[i] }; y += srcHeights[i] + ROW_GAP; });
+  const tgtPos = {}; y = yTop;
+  targets.forEach((t, i) => { tgtPos[t] = { y, h: tgtHeights[i] }; y += tgtHeights[i] + ROW_GAP; });
+
+  // Draw flows first (so nodes overlay)
+  const xL = PAD + 6, xR = W - PAD - 6;
+  const nodeW = 12;
+  const flowLX = xL + nodeW;
+  const flowRX = xR - nodeW;
+
+  // For each source, distribute its share among target bands based on pairs
+  const srcOffsets = {}; sources.forEach(s => srcOffsets[s] = 0);
+  const tgtOffsets = {}; targets.forEach(t => tgtOffsets[t] = 0);
+
+  const sortedPairs = Object.entries(pairs).sort((a, b) => b[1] - a[1]);
+  sortedPairs.forEach(([k, count]) => {
+    const [s, t] = k.split('||');
+    if (!srcPos[s] || !tgtPos[t]) return;
+    const srcH = srcPos[s].h * (count / (srcCounts[s] || 1));
+    const tgtH = tgtPos[t].h * (count / (tgtCounts[t] || 1));
+    const sy = srcPos[s].y + srcOffsets[s];
+    const ty = tgtPos[t].y + tgtOffsets[t];
+    srcOffsets[s] += srcH;
+    tgtOffsets[t] += tgtH;
+
+    const path = document.createElementNS(svgNS, 'path');
+    const cx = (flowLX + flowRX) / 2;
+    const d = `M ${flowLX} ${sy}
+               C ${cx} ${sy}, ${cx} ${ty}, ${flowRX} ${ty}
+               L ${flowRX} ${ty + tgtH}
+               C ${cx} ${ty + tgtH}, ${cx} ${sy + srcH}, ${flowLX} ${sy + srcH}
+               Z`;
+    path.setAttribute('d', d);
+    path.setAttribute('fill', BRAND.ELECTRIC);
+    path.setAttribute('fill-opacity', '0.35');
+    path.setAttribute('stroke', 'none');
+    path.style.transition = 'fill-opacity 120ms';
+    path.addEventListener('mouseenter', () => path.setAttribute('fill-opacity', '0.7'));
+    path.addEventListener('mouseleave', () => path.setAttribute('fill-opacity', '0.35'));
+    const title = document.createElementNS(svgNS, 'title');
+    title.textContent = `${s}  →  ${t}: ${count}`;
+    path.appendChild(title);
+    svg.appendChild(path);
+  });
+
+  // Source nodes
+  sources.forEach(s => {
+    const { y, h } = srcPos[s];
+    const g = document.createElementNS(svgNS, 'g');
+    const rect = document.createElementNS(svgNS, 'rect');
+    rect.setAttribute('x', xL); rect.setAttribute('y', y);
+    rect.setAttribute('width', nodeW); rect.setAttribute('height', h);
+    rect.setAttribute('fill', BRAND.AMBER);
+    g.appendChild(rect);
+    const label = document.createElementNS(svgNS, 'text');
+    label.setAttribute('x', xL + nodeW + 6);
+    label.setAttribute('y', y + h / 2 + 4);
+    label.setAttribute('fill', '#1f2937');
+    label.textContent = `${s} (${srcCounts[s]})`;
+    g.appendChild(label);
+    svg.appendChild(g);
+  });
+
+  // Target nodes
+  targets.forEach(t => {
+    const { y, h } = tgtPos[t];
+    const g = document.createElementNS(svgNS, 'g');
+    const rect = document.createElementNS(svgNS, 'rect');
+    rect.setAttribute('x', xR - nodeW); rect.setAttribute('y', y);
+    rect.setAttribute('width', nodeW); rect.setAttribute('height', h);
+    rect.setAttribute('fill', BRAND.NAVY);
+    g.appendChild(rect);
+    const label = document.createElementNS(svgNS, 'text');
+    label.setAttribute('x', xR - nodeW - 6);
+    label.setAttribute('y', y + h / 2 + 4);
+    label.setAttribute('text-anchor', 'end');
+    label.setAttribute('fill', '#1f2937');
+    label.textContent = `${t} (${tgtCounts[t]})`;
+    g.appendChild(label);
+    svg.appendChild(g);
+  });
+
+  host.appendChild(svg);
+}
+
+// --- Executive Diagnosis (replaces the legacy Architect Insight Bot) ----
+// Generates a headline, body paragraph, theme tags and a key-takeaway from
+// the data signals already in appData (dominant tier, top time loss, top
+// AI difficulty, top business pressure, top session demand). Re-runs every
+// time renderOverview fires so the wording stays in sync with the cohort.
+function renderExecutiveDiagnosis(appData) {
+  const tier = appData.dominantTier || 'Momentum';
+  const count = (appData.scores || []).length;
+  const top = (obj) => {
+    const e = Object.entries(obj || {}).filter(([k]) => k && k !== 'undefined').sort((a, b) => b[1] - a[1]);
+    return e.length ? e[0][0] : '';
+  };
+  const topTime = top(appData.stats?.time) || 'reporting / admin';
+  const topDiff = top(appData.stats?.diff) || 'not knowing where to start';
+  const topPress = top(appData.stats?.press) || '';
+
+  // Recompute session demand from raw respondents (Q6.1).
+  const sessionCounts = {};
+  (appData.respondents || []).forEach(rec => {
+    const items = asArray(getField(rec, ['6.1', 'session truly useful', 'useful for you']));
+    items.forEach(it => { sessionCounts[it] = (sessionCounts[it] || 0) + 1; });
+  });
+  const topDemand = top(sessionCounts) || 'practical AI demos';
+
+  // ---- Headline + body per dominant tier ----
+  let headline, body, takeawayHead, takeawayBody;
+  const tierLow = tier.toLowerCase();
+
+  if (tierLow === 'ignition') {
+    headline = 'Companies are at the starting line — AI ambition is high, but the structure is missing.';
+    body = `Most respondents are still operating on intuition, with little or no structured AI practice. Time is mostly lost on <strong>${topTime}</strong>, and the most-cited blocker is <strong>${topDiff}</strong>. The audience needs orientation before strategy.`;
+    takeawayHead = 'The strongest opportunity is to position the session as an AI foundations workshop.';
+    takeawayBody = `Lead with quick-win automation use cases (especially around ${topTime.toLowerCase()}), basic data hygiene, and how to pick the first AI bets — not abstract AI strategy. The audience explicitly asks for <strong>${topDemand}</strong>.`;
+  } else if (tierLow === 'mastery') {
+    headline = `Companies are AI-mature — the next leap is governance and competitive advantage.`;
+    body = `Most have AI live and producing measurable value. The bottleneck has shifted from adoption to scale: <strong>${topTime}</strong> remains the biggest time sink, and <strong>${topDiff}</strong> is still cited as a recurring blocker even with tools in place.`;
+    takeawayHead = 'The strongest opportunity is to elevate the session to a scale-and-govern executive briefing.';
+    takeawayBody = `Lead with measurement frameworks, governance patterns, and competitive AI plays. The room is asking for <strong>${topDemand}</strong> — generic demos will not move this audience.`;
+  } else {
+    headline = `Companies are experimenting with AI, but most are still stuck in the “Momentum” stage.`;
+    const pressBit = topPress ? `${topPress.toLowerCase()}, ` : '';
+    body = `The audience is not asking for more AI theory. They want practical automation demos, sector examples, and a clear implementation roadmap. The biggest risk signal is not technology itself — it is the combination of ${pressBit}manual <strong>${topTime.toLowerCase()}</strong> work, and <strong>${topDiff.toLowerCase()}</strong>.`;
+    takeawayHead = 'The strongest opportunity is to position the session as a practical AI implementation workshop.';
+    takeawayBody = `Lead with workflow automation, ${topTime.toLowerCase()} use cases, and clear next-step roadmaps rather than generic AI awareness. The room is asking for <strong>${topDemand}</strong>.`;
+  }
+
+  // ---- Theme tags (2–4 short chips picked from data signals) ----
+  const tags = new Set();
+  const tt = (topTime || '').toLowerCase();
+  const td = (topDiff || '').toLowerCase();
+  const tp = (topPress || '').toLowerCase();
+  const tdm = (topDemand || '').toLowerCase();
+  if (tt.includes('report') || tt.includes('admin')) tags.add('Operational bottlenecks');
+  if (tt.includes('decision')) tags.add('Decision overload');
+  if (tt.includes('search')) tags.add('Knowledge friction');
+  if (tt.includes('recruit') || tt.includes('train')) tags.add('People-process drag');
+  if (tp.includes('talent') || tp.includes('retention') || tp.includes('hiring') || tp.includes('skills')) tags.add('Talent pressure');
+  if (tp.includes('cost')) tags.add('Margin pressure');
+  if (tp.includes('competition')) tags.add('Competitive squeeze');
+  if (td.includes('roi')) tags.add('ROI uncertainty');
+  if (td.includes('privacy') || td.includes('security')) tags.add('Trust concerns');
+  if (td.includes('structure') || td.includes('strategy')) tags.add('Strategy gap');
+  if (td.includes('start')) tags.add('Where-to-start');
+  if (td.includes('resistance')) tags.add('Internal resistance');
+  if (tdm.includes('hands-on') || tdm.includes('tool') || tdm.includes('automation')) tags.add('Practical AI demand');
+  if (tdm.includes('roadmap')) tags.add('Roadmap demand');
+  if (tdm.includes('case')) tags.add('Sector-example demand');
+  if (tdm.includes('roi')) tags.add('ROI-first mindset');
+  if (tdm.includes('network')) tags.add('Peer benchmarking');
+
+  // Cap to 4 tags; if we have fewer, pad with a tier-level chip.
+  const tagList = [...tags].slice(0, 4);
+  if (tagList.length < 2) tagList.push(`${tier} cohort`);
+
+  // ---- Inject ----
+  const set = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  set('exec_diag_headline', headline);
+  set('exec_diag_body', body);
+  set('exec_diag_takeaway_head', takeawayHead);
+  set('exec_diag_takeaway_body', takeawayBody);
+  const tagsEl = document.getElementById('exec_diag_tags');
+  if (tagsEl) {
+    tagsEl.innerHTML = tagList.map(t =>
+      `<span style="display:inline-block;padding:5px 12px;border-radius:999px;background:#ffffff;border:1px solid #f6923e;color:#f6923e;font-size:11.5px;font-weight:600;letter-spacing:0.01em;">${t}</span>`
+    ).join('');
+  }
+}
+
+// --- Main AI difficulty (replaces the legacy c_diff bar chart) ----------
+// Free-text + duplicated-whitespace answers pollute the raw Q5.3 stats
+// (e.g. "Lack of structure / strategy" vs "Lack of structure /  strategy").
+// This renderer canonicalises labels, drops noise / verbatim ramblings,
+// and shows the top 6 as a clean ranked list with bars.
+function renderAIDifficulty(appData) {
+  const host = document.getElementById('c_diff_list');
+  if (!host) return;
+  host.innerHTML = '';
+
+  const stats = appData.stats?.diff || {};
+  const NOISE = new Set(['none', 'nothing', 'na', 'n/a', 'no', 'aucun', '-', '.', '...']);
+  const canon = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+  const key   = (s) => canon(s).toLowerCase();
+
+  // Merge variants that differ only in whitespace / case.
+  const groups = {}; // canonicalKey -> { label, count }
+  Object.entries(stats).forEach(([raw, count]) => {
+    const k = key(raw);
+    if (!k) return;
+    if (NOISE.has(k)) return;
+    if (k.length > 50) return; // free-text verbatims
+    const display = canon(raw);
+    if (!groups[k]) groups[k] = { label: display, count: 0 };
+    else if (display.length < groups[k].label.length) groups[k].label = display;
+    groups[k].count += count;
+  });
+
+  const entries = Object.entries(groups)
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 6);
+
+  if (entries.length === 0) {
+    host.innerHTML = '<div style="padding:16px;color:#94a3b8;font-size:12px">No data yet.</div>';
+    return;
+  }
+
+  const max = entries[0][1].count || 1;
+
+  host.innerHTML = entries.map(([, g]) => {
+    const widthPct = Math.max(3, (g.count / max) * 100);
+    return `
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:12px">
+          <span style="font-size:13px;color:#1f2937;font-weight:500;line-height:1.3">${g.label}</span>
+          <span style="font-size:14px;font-weight:700;color:#1f2937;flex:0 0 auto">${g.count}</span>
+        </div>
+        <div style="height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${widthPct}%;background:#052139;border-radius:3px;transition:width 240ms"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// --- KPI cards override --------------------------------------------------
+// The bundle still writes legacy values into kpi-tier (a badge) and kpi-range
+// ("Range: 11 – 48"). Rewrite them to match the v2 design: a plain count for
+// the dominant tier, "85% in Momentum" for the sub, "Range 11–48" no colon.
+function renderKpiCards(appData) {
+  const total = (appData.scores || []).length;
+  const tier = appData.dominantTier || '';
+  const tierKey = tier.toLowerCase();
+  const tierCount = appData.tiers?.[tierKey] || 0;
+  const pct = total ? Math.round((tierCount / total) * 100) : 0;
+
+  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+
+  setText('kpi-tier', String(tierCount));
+  setText('kpi-tier-sub', tier ? `${pct}% in ${tier}` : '—');
+
+  if (appData.scoreRange) {
+    setText('kpi-range', `Range ${appData.scoreRange.min}–${appData.scoreRange.max}`);
+  }
+}
+
+// --- Wiring ---------------------------------------------------------------
+function renderOverview(appData) {
+  renderKpiCards(appData);
+  renderExecutiveDiagnosis(appData);
+  renderRiskReadiness(appData);
+  renderKeynotePulse(appData);
+}
+function renderDeepDive(appData) {
+  renderPriorities(appData);
+  renderRiskByIndustry(appData);
+  renderSolutionFlow(appData);
+  renderAIDifficulty(appData);
+}
+
+let dataReady = null;
+window.addEventListener('gmhrDataReady', (ev) => {
+  dataReady = ev.detail || window.appData;
+  renderOverview(dataReady);
+  // If the user has already revealed Deep Dive before data arrived, render now too.
+  if (document.getElementById('pg1') && document.getElementById('pg1').classList.contains('active')) {
+    renderDeepDive(dataReady);
+  }
+});
+
+// Lazy-render Deep Dive extras on first reveal of that tab.
+let deepRendered = false;
+document.querySelectorAll('.tab').forEach((tab, idx) => {
+  tab.addEventListener('click', () => {
+    if (idx === 1 && dataReady && !deepRendered) {
+      renderDeepDive(dataReady);
+      deepRendered = true;
+    }
+  });
+});
+</script>
 
 </body>
 </html>
