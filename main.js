@@ -106,14 +106,68 @@ function normalizeStr(str) {
   return str ? String(str).trim() : '';
 }
 
+// Fallback maturity score used only when the Tally-computed `maturity_score`
+// field is missing from a record. Mirrors the Tally rules from the 2026
+// AI Readiness Benchmark form (May 2026 revision).
+function computeLocalScore({ size, role, loss, wow, imp, tools }) {
+  let score = 0;
+
+  // 1.2 Company size
+  const s = (size || '').toLowerCase();
+  if (s.includes('1-50') || s.includes('1–50')) score += 1;
+  else if (s.includes('50-200') || s.includes('50–200')) score += 3;
+  else if (s.includes('200-500') || s.includes('200–500')) score += 5;
+  else if (s.includes('500+')) score += 8;
+
+  // 1.3 Current role — match the strictest patterns first to avoid the old
+  // bug where "Head of" was catching CHRO/CFO/COO in the +10 bucket.
+  const r = (role || '').toLowerCase();
+  if (r.includes('ceo') || r.includes('founder') || /\bcio\b/.test(r) || /\bcto\b/.test(r) || r.includes('head of it')) score += 10;
+  else if (/\bchro\b/.test(r) || /\bcfo\b/.test(r) || /\bcoo\b/.test(r) || r.includes('head of hr') || r.includes('head of finance') || r.includes('head of operations')) score += 8;
+  else if (r.includes('director')) score += 5;
+  else if (r.includes('hr manager') || r.includes('l&d') || r.includes('operational manager')) score += 3;
+  else if (r) score += 1;
+
+  // 3.2 Where do you lose time (multi-select, each option contributes)
+  const lossStr = (loss || []).join(' ').toLowerCase();
+  if (lossStr.includes('decision')) score += 10;
+  if (lossStr.includes('reporting') || lossStr.includes('admin')) score += 8;
+  if (lossStr.includes('search')) score += 8;
+  if (lossStr.includes('recruit')) score += 5;
+  if (lossStr.includes('train') || lossStr.includes('upskill')) score += 5;
+  if (lossStr.includes('content')) score += 5;
+  if (lossStr.includes('team')) score += 3;
+  if (lossStr.includes('other')) score += 1;
+
+  // 4.1 Way of working
+  const w = (wow || '').toLowerCase();
+  if (w.includes('kpi')) score += 10;
+  else if (w.includes('not measured')) score += 5;
+  else if (w.includes('some tools') || w.includes('unstructured')) score += 3;
+  else if (w.includes('intuition')) score += 1;
+
+  // 4.2 Impact measurement
+  const i = (imp || '').toLowerCase();
+  if (i.includes('yes')) score += 10;
+  else if (i.includes('partial')) score += 5;
+  else if (i.includes('no')) score += 1;
+
+  // 5.2 Which AI tools (5.1 is no longer scored — its role is conditional display).
+  const toolsLower = (tools || []).map(t => String(t).toLowerCase());
+  const mainstream = ['chatgpt', 'copilot', 'gemini', 'claude', 'perplexity'];
+  if (toolsLower.some(t => mainstream.some(k => t.includes(k)))) score += 10;
+  else if (toolsLower.some(t => t.includes('custom') || t.includes('internal') || t === 'other')) score += 5;
+  else if (toolsLower.some(t => t.includes('none'))) score += 1;
+
+  return score;
+}
+
 function processData(records) {
   appData.respondents = records.map(r => r.fields);
   let totalScore = 0;
   appData.losingTimeCount = 0;
-  
+
   appData.respondents.forEach(f => {
-    let score = 0;
-    
     // Safety generic getters (Airtable fields might vary in exact case/spacing)
     const getField = (keywords) => {
       let key = Object.keys(f).find(k => keywords.some(kw => k.toLowerCase().includes(kw)));
@@ -126,7 +180,9 @@ function processData(records) {
     if (!Array.isArray(loss) && loss) loss = [loss];
     let wow = normalizeStr(getField(['way of working', '4.1', 'working']));
     let imp = normalizeStr(getField(['impact', '4.2', 'measurement']));
-    let aiu = normalizeStr(getField(['ai usage', '5.1', 'usage level']));
+    let aiu = normalizeStr(getField(['ai usage', '5.1', 'usage level', 'currently using ai']));
+    let toolsRaw = getField(['ai tools', '5.2', 'which ai tools']) || [];
+    if (!Array.isArray(toolsRaw) && toolsRaw) toolsRaw = [toolsRaw];
     let diff = normalizeStr(getField(['difficulty', '5.3', 'main ai difficulty']));
     let pressRaw = getField(['business pressures', '2.1', 'pressures']) || [];
     if (!Array.isArray(pressRaw)) pressRaw = [pressRaw];
@@ -140,42 +196,12 @@ function processData(records) {
     });
     let ind = normalizeStr(getField(['industry']));
 
-    // Scoring Engine
-    if (size.includes('1-50') || size.includes('1–50')) score += 1;
-    else if (size.includes('50-200') || size.includes('50–200')) score += 3;
-    else if (size.includes('200-500') || size.includes('200–500')) score += 5;
-    else if (size.includes('500+')) score += 8;
+    // Prefer the maturity_score computed by Tally (single source of truth).
+    // Fall back to local recomputation if the field is absent on a record.
+    const tallyScore = Number(getField(['maturity_score', 'maturity score']));
+    let score = Number.isFinite(tallyScore) ? tallyScore : computeLocalScore({ size, role, loss, wow, imp, tools: toolsRaw });
 
-    if (role.toLowerCase().includes('ceo') || role.toLowerCase().includes('founder') || role.toLowerCase().includes('director') || role.toLowerCase().includes('head of')) score += 10;
-    else if (role.toLowerCase().includes('hr') || role.toLowerCase().includes('l&d')) score += 5;
-    else if (role.toLowerCase().includes('operational')) score += 2;
-    else if (role) score += 1;
-
-    let lossStr = loss.join(" ").toLowerCase();
     if(loss.length > 0) appData.losingTimeCount++;
-    if (lossStr.includes('decision')) score += 10;
-    if (lossStr.includes('reporting') || lossStr.includes('admin')) score += 8;
-    if (lossStr.includes('search')) score += 8;
-    if (lossStr.includes('recruit')) score += 5;
-    if (lossStr.includes('train') || lossStr.includes('upskill')) score += 5;
-    if (lossStr.includes('team')) score += 3;
-    else if (lossStr.includes('content') || lossStr.includes('other')) score += 1;
-
-    let wowL = wow.toLowerCase();
-    if (wowL.includes('kpi')) score += 10;
-    else if (wowL.includes('not measured')) score += 5;
-    else if (wowL.includes('some tools') || wowL.includes('unstructured')) score += 3;
-    else if (wowL.includes('intuition')) score += 1;
-
-    let impL = imp.toLowerCase();
-    if (impL.includes('yes')) score += 10;
-    else if (impL.includes('partial')) score += 5;
-    else if (impL.includes('no')) score += 1;
-
-    let aiuL = aiu.toLowerCase();
-    if (aiuL.includes('yes') || aiuL.includes('regular')) score += 10;
-    else if (aiuL.includes('occasion')) score += 5;
-    else if (aiuL.includes('not yet')) score += 1;
 
     appData.scores.push(score);
     totalScore += score;
